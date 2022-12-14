@@ -25,7 +25,7 @@ shape_score_dict = {
     "Z": 3, 
     }
 # Returns winner of round
-rpz_rules_dict = {
+p1_rules_dict = {
     "A": {"X": "D", "Y": "Y", "Z": "A"}, 
     "B": {"X": "B", "Y": "D", "Z": "Z"},
     "C": {"X": "X", "Y": "C", "Z": "D"}
@@ -37,7 +37,7 @@ def rounds_str_to_list(s):
         s[i] = s[i].split(" ")
     return s
 
-def play_round(player_a, player_b, rules=rpz_rules_dict):
+def play_round(player_a, player_b, rules=p1_rules_dict):
     # Play round against rules of game
     r = rules[player_a][player_b]
     if r == "D":
