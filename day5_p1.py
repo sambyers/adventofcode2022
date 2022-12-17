@@ -37,7 +37,7 @@ def stackify(str):
     # ...
     # stack 9 = [32:35]
 
-def make_instructions(str):
+def instructify(str):
     """Return string instructions as tuple of dictionaries"""
     instr_list = str.split("\n")
     result_list = []
@@ -69,7 +69,7 @@ def do_instr(stack_dict, instr_tuple):
 
 def main():
     stack_dict, instructions_str = stackify(puzzle_input_str)
-    instr_tuple = make_instructions(instructions_str)
+    instr_tuple = instructify(instructions_str)
     pprint.pprint(stack_dict, indent=2, width=200)
     pprint.pprint(do_instr(stack_dict, instr_tuple), indent=2, width=200)
 
