@@ -51,7 +51,7 @@ def instructify(str):
         result_list.append(instr_dict)
     return tuple(result_list)
 
-def do_instr(stack_dict, instr_tuple):
+def do_the_thing(stack_dict, instr_tuple):
     """Processes instructions to do work on the stack
     Return resulting stack dictionary
     """
@@ -71,7 +71,7 @@ def main():
     stack_dict, instructions_str = stackify(puzzle_input_str)
     instr_tuple = instructify(instructions_str)
     pprint.pprint(stack_dict, indent=2, width=200)
-    pprint.pprint(do_instr(stack_dict, instr_tuple), indent=2, width=200)
+    pprint.pprint(do_the_thing(stack_dict, instr_tuple), indent=2, width=200)
 
 
 if __name__ == "__main__":
