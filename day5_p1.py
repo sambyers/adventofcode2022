@@ -5,7 +5,7 @@ from sys import argv
 with open(argv[1]) as fh:
     puzzle_input_str = fh.read()
 
-def make_stack(str):
+def stackify(str):
     """Return stacks as dictionary of deque
     Ex. {1: deque(['[N]', '[D]', '[M]', '[Q]', '[B]', '[P]', '[Z]', '[V]'])}
     """
@@ -68,7 +68,7 @@ def do_instr(stack_dict, instr_tuple):
     return stack_dict
 
 def main():
-    stack_dict, instructions_str = make_stack(puzzle_input_str)
+    stack_dict, instructions_str = stackify(puzzle_input_str)
     instr_tuple = make_instructions(instructions_str)
     pprint.pprint(stack_dict, indent=2, width=200)
     pprint.pprint(do_instr(stack_dict, instr_tuple), indent=2, width=200)
