@@ -1,8 +1,8 @@
 from collections import deque
-import re, pprint
+import pprint
+from sys import argv
 
-
-with open("day5-input") as fh:
+with open(argv[1]) as fh:
     puzzle_input_str = fh.read()
 
 def make_stack(str):
