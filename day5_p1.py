@@ -1,12 +1,12 @@
 from collections import deque
-import pprint
 from sys import argv
 
 with open(argv[1]) as fh:
     puzzle_input_str = fh.read()
 
 def stackify(str):
-    """Return stacks as dictionary of deque
+    """
+    Return stacks as dictionary of deque
     Ex. {1: deque(['[N]', '[D]', '[M]', '[Q]', '[B]', '[P]', '[Z]', '[V]'])}
     """
     stacks_str, moves_str = str.split("\n\n")
@@ -30,12 +30,6 @@ def stackify(str):
             left += interval
             right += interval
     return stacks_dict, moves_str
-    # Slices for the columns
-    # +4 to left (0) and right (3)
-    # stack 1 = [:3]
-    # stack 2 = [4:7]
-    # ...
-    # stack 9 = [32:35]
 
 def instructify(str):
     """Return string instructions as tuple of dictionaries"""
@@ -51,28 +45,28 @@ def instructify(str):
         result_list.append(instr_dict)
     return tuple(result_list)
 
-def do_the_thing(stack_dict, instr_tuple):
-    """Processes instructions to do work on the stack
+def crate_mover_9000(stack_dict, instr_tuple):
+    """
+    CrateMover 9000
+    Processes instructions to do work on the stack
     Return resulting stack dictionary
     """
     for i in instr_tuple:
         from_stk = i["from"]
         to_stk = i["to"]
         moves = i["move"]
-        print("\n###")
-        print(f"Moving {moves} crate(s) from {from_stk} to {to_stk}...")
-        crates_moved = 0
         for m in range(moves):
             stack_dict[to_stk].append(stack_dict[from_stk].pop())
-            crates_moved += 1
     return stack_dict
+
+def get_top_crates(d):
+    return "".join([v[-1] for v in d.values()]).replace("[", "").replace("]", "").replace(" ", "")
 
 def main():
     stack_dict, instructions_str = stackify(puzzle_input_str)
     instr_tuple = instructify(instructions_str)
-    pprint.pprint(stack_dict, indent=2, width=200)
-    pprint.pprint(do_the_thing(stack_dict, instr_tuple), indent=2, width=200)
-
+    result_stack_dict = crate_mover_9000(stack_dict, instr_tuple)
+    print(get_top_crates(result_stack_dict))
 
 if __name__ == "__main__":
     main()
