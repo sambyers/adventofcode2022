@@ -1,5 +1,6 @@
 from sys import argv
 
+
 with open(argv[1]) as fh:
     puzzle_input_str = fh.read()
 
