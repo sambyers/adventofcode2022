@@ -53,7 +53,7 @@ def sum_directories(directories, threshold=100000):
 
 def main():
     d = cmds_to_dict(puzzle_input_str)
-    # pprint(d, indent=4, width=100)
+    pprint(d, indent=4, width=100)
     print(sum_directories(d))
 
 if __name__ == "__main__":
