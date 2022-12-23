@@ -1,5 +1,5 @@
 from sys import argv
-from pprint import pprint
+
 
 class Directory():
     def __init__(self, name, parent) -> None:
