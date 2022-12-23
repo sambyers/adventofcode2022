@@ -7,6 +7,7 @@ class Directory():
         self.parent = parent
         self.child_directories = []
         self.child_files = []
+        self.capacity = 70000000
 
     @property
     def size(self):
@@ -21,6 +22,14 @@ class Directory():
                 size += dir.size
         self._size = size
         return self._size
+    
+    @property
+    def utilization(self):
+        return round((self.size / self.capacity)*100, 2)
+    
+    @property
+    def free(self):
+        return self.capacity - self.size
 
     def add_file(self, file):
         self.child_files.append(file)
@@ -53,18 +62,43 @@ def walk_to_root(dir):
         dir = dir.parent
     return dir
 
-# Depth first search on the tree to find sum of dirs <= 100000.
-def dfs(tree, node, visited):
+# Depth first search on the tree to find sum of dirs <= threshold.
+def sum_dirs_with_threshold(tree, threshold, node=None, visited=None):
+    if visited is None:
+        visited = []
+    if node is None:
+        node = tree
+    if not hasattr(tree, "p1_answer"):
+        tree.p1_answer = 0
     if node not in visited and isinstance(node, Directory):
-        nsize = node.size
-        if nsize <= 100000:
+        if node.size <= threshold:
             # Store sum of dirs in p1_solution property of root tree obj
-            tree.p1_solution += node.size
+            tree.p1_answer += node.size
         visited.append(node)
         for dir in node.child_directories:
-            dfs(tree, dir, visited)
+            sum_dirs_with_threshold(tree, threshold, node=dir, visited=visited)
     return tree
 
+# Depth first search on the tree to find smallest
+# dir to free up enough space for the update
+def find_rm_candidate(tree, update_size, node=None, visited=None):
+    if visited is None:
+        visited = []
+    if node is None:
+        node = tree
+    if not hasattr(tree, "p2_answer"):
+        tree.p2_answer = None
+    if node not in visited and isinstance(node, Directory):
+        potential_space = tree.free + node.size
+        if potential_space >= update_size:
+            if not tree.p2_answer:
+                tree.p2_answer = node
+            elif tree.p2_answer and tree.p2_answer.size > node.size:
+                tree.p2_answer = node
+        visited.append(node)
+        for dir in node.child_directories:
+            find_rm_candidate(tree, update_size, node=dir, visited=visited)
+    return tree
     
 def cmds_to_tree(lines_str):
     lines_list = lines_str.split("\n")
@@ -96,10 +130,13 @@ def main():
         puzzle_input_str = fh.read()
     tree = cmds_to_tree(puzzle_input_str)
     print(f"Total size: {tree.size}")
-    # Place for part 1 solution on the root tree obj
-    tree.p1_solution = 0
-    tree = dfs(tree, tree, [])
-    print(tree.p1_solution)
+    tree = sum_dirs_with_threshold(tree, 100000)
+    print("Answer 1:", tree.p1_answer)
+    update_size = 30000000
+    tree = find_rm_candidate(tree, update_size)
+    print("Answer 2:", tree.p2_answer.name, tree.p2_answer.size)
+    # 7951177 is too high
+
 
 if __name__ == "__main__":
     main()
